@@ -1,0 +1,20 @@
+{
+  "name": "review-astronauts-example-start",
+  "version": "0.0.1",
+  "description": "A project to refresh our javascript skills",
+  "main": "index.js",
+  "source": "index.html",
+  "scripts": {
+    "hello": "echo \"Hello from the terminal\"",
+    "start": "parcel",
+    "build": "parcel build"
+  },
+  "author": "Reonel Duque",
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "^5.3.1"
+  },
+  "devDependencies": {
+    "parcel": "^2.9.3"
+  }
+}
