@@ -574,8 +574,101 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 }
 
 },{}],"1Z4Rq":[function(require,module,exports) {
-// js here.
+//bootstrap css library
+var _bootstrapMinCss = require("bootstrap/dist/css/bootstrap.min.css");
+//get astronaut list
+var _astronaut = require("./api/astronaut");
+var _astronaut1 = require("./dom/astronaut");
+let astronautListElement = document.querySelector(".astronaut-list");
+(0, _astronaut.getAstronautList)().then((data)=>{
+    //loop through the astronauts
+    data.results.map((astronaut)=>{
+        (0, _astronaut1.renderAstronautListItem)(astronaut, astronautListElement);
+    });
+});
 
-},{}]},["iNGHL","1Z4Rq"], "1Z4Rq", "parcelRequire4625")
+},{"./api/astronaut":"j9BdQ","bootstrap/dist/css/bootstrap.min.css":"i5LP7","./dom/astronaut":"a988T"}],"j9BdQ":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "getAstronautList", ()=>getAstronautList);
+const BASE_URL = "https://lldev.thespacedevs.com/2.2.0";
+// api functions here.
+/**
+ * A function that returns data from the astronaut api
+ * @example
+ * getAstronautList().then((data)=> {
+ *  //do something here.
+ * })
+ */ const getAstronautList = ()=>{
+    return fetch(`${BASE_URL}/astronaut/`) //promise
+    .then((response)=>{
+        return response.json() //a promise
+        ;
+    }).then((data)=>{
+        return data // this is what will be returned
+        ;
+    });
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"i5LP7":[function() {},{}],"a988T":[function(require,module,exports) {
+/*
+HTML of an astronaut list item.
+replace the instances that have "THIS FORMAT HERE" with the astronautData.
+
+<li href="#" class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+        <img src="PROFILE THUMBNAIL HERE" class="rounded float-start" alt=""">    
+        <h5 class="mb-1">ASTRONAUT NAME (ASTRONAUT STATUS HERE)</h5>
+        <small class="float-end">born DATE OF BIRTH HERE</small>
+    </div>
+    <small>ASTRONAUT NATIONALITY HERE (ASTRONAUT AGENCY NAME)</small>    
+    <p class="mb-1">ASTRONAUT BIO HERE </p>
+</li>
+*/ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "renderAstronautListItem", ()=>renderAstronautListItem);
+const renderAstronautListItem = (astronautData, listElement)=>{
+    listElement.innerHTML += `<li href="#" class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+        <img src="${astronautData.profile_image_thumbnail}" class="rounded float-start" alt=""">    
+        <h5 class="mb-1">${astronautData.name} (${astronautData.status.name})</h5>
+        <small class="float-end">born ${astronautData.date_of_birth}</small>
+    </div>
+    <small>${astronautData.nationality} (${astronautData.agency.abbrev})</small>    
+    <p class="mb-1">${astronautData.bio} </p>
+</li>`;
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["iNGHL","1Z4Rq"], "1Z4Rq", "parcelRequire4625")
 
 //# sourceMappingURL=index.5d9dacde.js.map
