@@ -24,7 +24,7 @@ export default function ComponentLibraryList() {
     return <ListGroup>
         {UI_LIBRARY_LIST.map((uiLibrary, index) => {
             //return jsx for each item in the array
-            return <ListGroup.Item>
+            return <ListGroup.Item key={index}>
                 <a href={uiLibrary.url} target="_blank">{uiLibrary.name}</a>
             </ListGroup.Item>
         })}
