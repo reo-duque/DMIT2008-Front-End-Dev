@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { MOVIE_LIST } from '../utils/movies'
 
 import Head from 'next/head'
@@ -16,6 +18,56 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 
 export default function Home() {
+  const [search, setSearch] = useState("")
+  const [year, setYear] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
+  const [movieList, setMovieList] = useState(MOVIE_LIST)
+
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+
+    //validate the search
+    validateSearchValues()
+    //filter the movies
+    filterMovies()
+  }
+
+  const filterMovies = () => {
+    // make a copy of the movie list
+    let filteredMovieList = [...MOVIE_LIST]
+    // check if the search is empty
+    if (search.trim() !== "") {
+        // we are going to use our knowledge of filter on arrays to filter out the movies we don't want
+        filteredMovieList = filteredMovieList.filter((movie) => {
+          let searchLowerCase = search.toLowerCase()
+          let movieNameLowerCase = movie.name.toLowerCase()
+          // return true to keep the movie in the array
+          // return false to not keep the movie in the array
+          return movieNameLowerCase.includes(searchLowerCase)
+        })
+    }
+    //do the same thing for year
+    // set the state
+    setMovieList(filteredMovieList)
+  }
+
+  const isNumber = (value) => {
+    return !isNaN(value)
+  }
+  const validateSearchValues = () => {
+    //if they're both empty, it's valid.
+    if (search.trim().length === 0 || year.trim().length === 0){
+      setErrorMessage("")
+      return
+    }
+
+    if (!isNumber(year) || year.trim().length !== 4){
+      setErrorMessage(`${year} is not a valid year`)
+      return
+    }
+  }
+
   return (
     <div>
       <Head>
@@ -33,7 +85,10 @@ export default function Home() {
           <Typography variant="h2" component="h2" style={{textAlign: "center"}}>
             Movies
           </Typography>
-          <form style={{width: '100%'}}>
+          <form 
+            style={{width: '100%'}}
+            onSubmit={handleSubmit}
+            >
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <TextField
@@ -41,7 +96,10 @@ export default function Home() {
                   label="search..."
                   variant="standard"
                   sx={{width: '100%'}}
-                  
+                  onChange = {(event) => {
+                    event.defaultMuiPrevented = true;
+                    setSearch(event.target.value)}}
+                  value={search}
                 />
               </Grid>
               <Grid item xs={4}>
@@ -50,7 +108,9 @@ export default function Home() {
                   label="year"
                   variant="standard"
                   sx={{width: '100%'}}
-                 
+                  onChange = {(event) => {
+                    setYear(event.target.value)}}
+                  value={year}
                 />
               </Grid>
               <Grid item xs={2}>
@@ -61,11 +121,14 @@ export default function Home() {
               </Grid>
               <Grid item xs={10}>
                 {/* Add the error message here*/}
+                {errorMessage !== "" && 
+                  <Alert severity="error">{errorMessage}</Alert>
+                }
               </Grid>
             </Grid>
           </form>
           <List sx={{width: `100%`}}>
-          { MOVIE_LIST.map((movieData, index)=> {
+          { movieList.map((movieData, index)=> {
               return <ListItem key={index}>
                 <ListItemText>
                   <Typography variant="p" component="div">
