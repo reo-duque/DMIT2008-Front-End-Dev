@@ -7,6 +7,8 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 
 import { useState } from 'react';
@@ -23,20 +25,36 @@ export default function TodoList() {
     }
 
     const onAddTodoClick = (event) => {
-        //add it to the array of allTodos
-        console.log("Before")
-        console.log(allTodos)
+        if (todoText !== "")
+        {
+            //add it to the array of allTodos
+            console.log("Before")
+            console.log(allTodos)
 
-        let newAllTodos = [todoText, ...allTodos]
+            let newAllTodos = [todoText, ...allTodos]
 
-        console.log("After")
-        console.log(newAllTodos)
+            console.log("After")
+            console.log(newAllTodos)
 
-        //save it to the stateful allTodos
+            //save it to the stateful allTodos
+            setAllTodos(newAllTodos)
+
+            //reset the todoText value
+            setTodoText("")
+        }
+    }
+
+    const onRemoveToDo = (index) => {
+        console.log("onRemoveToDo")
+        console.log(index)
+        console.log(`item at index ${index} is ${allTodos[index]}`)
+
+        //create a copy
+        let newAllTodos = [...allTodos]
+        //splice to remove the item at the index
+        newAllTodos.splice(index, 1)
+        //set the state
         setAllTodos(newAllTodos)
-
-        //reset the todoText value
-        setTodoText("")
     }
 
     return <Box sx={{flexGrow: 1}}>
@@ -69,8 +87,18 @@ export default function TodoList() {
             <Grid item xs={12}>
                 <List>
                     {allTodos.map((todoItem, index) => {
-                        return <ListItem key={index}>
-                                <ListItemText primary={todoItem}/>
+                        return <ListItem 
+                        key={index}
+                        secondaryAction={
+                            <IconButton edge="end"
+                            onClick={
+                                () => onRemoveToDo(index)}>
+                              <DeleteIcon />
+                            </IconButton>
+                        }
+                        divider
+                        >
+                                <ListItemText primary={todoItem} />
                                 <Divider />
                             </ListItem>
 
