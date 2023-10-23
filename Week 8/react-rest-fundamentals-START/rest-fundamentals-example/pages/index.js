@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
@@ -11,7 +13,20 @@ import Container from '@mui/material/Container';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
+
+
 export default function Home() {
+  const [quoteData, setQuoteData] = useState({
+    author: "Author here",
+    quote: "Quote here"
+  })
+
+  const randomQuote = async () => {
+    const QUOTE_URL = 'https://api.quotable.io/random'
+    const response = await fetch (QUOTE_URL)
+    const data = await response.json();
+    setQuoteData({author: data.author, quote: data.content})
+  }
 
 
   return (
@@ -42,7 +57,7 @@ export default function Home() {
             }}
           >
             <Typography variant="h5" align="center" color="text.primary" paragraph>
-              Quote here.
+              {quoteData.quote}
             </Typography>
             <Typography
               component="h1"
@@ -51,7 +66,7 @@ export default function Home() {
               color="text.secondary"
               gutterBottom
             >
-              Author here
+              {quoteData.author}
             </Typography>
             <Box
              display="flex"
@@ -60,6 +75,7 @@ export default function Home() {
             >
               <Button
                 variant="contained"
+                onClick={randomQuote}
               >
                 Get New Quote
               </Button>

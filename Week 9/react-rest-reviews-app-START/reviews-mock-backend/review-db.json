@@ -1,0 +1,22 @@
+{
+  "reviews": [
+    {
+      "id": 1,
+      "title": "Wheel of time",
+      "comment": "Books were great, season 2 was way better.",
+      "rating": 8
+    },
+    {
+      "id": 2,
+      "title": "The Lord of the rings",
+      "comment": "A classic movie and a classic book series as well!",
+      "rating": 10
+    },
+    {
+      "title": "Game of thrones",
+      "comment": "Books were graphic, show was great until the last 2 seasons",
+      "rating": 9,
+      "id": 3
+    }
+  ]
+}

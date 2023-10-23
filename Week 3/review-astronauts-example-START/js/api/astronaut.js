@@ -10,13 +10,10 @@ const BASE_URL = "https://lldev.thespacedevs.com/2.2.0"
  * })
  */
 
-const getAstronautList = () => {
-    return fetch(`${BASE_URL}/astronaut/`) //promise
-        .then((response)=> {
-            return response.json() //a promise
-        }).then((data) => {
-            return data // this is what will be returned
-        })
+const getAstronautList = async () => {
+    const response = await fetch(BASE_URL + '/astronaut/')
+    const data = await response.json()
+    return data
 }
 
 export { getAstronautList }

@@ -2,6 +2,8 @@ import { useState } from 'react'
 
 import { MOVIE_LIST } from '../utils/movies'
 
+import SimpleListItem from '../components/SimpleListItem'
+
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
@@ -29,8 +31,12 @@ export default function Home() {
 
     //validate the search
     validateSearchValues()
+
     //filter the movies
-    filterMovies()
+    if (errorMessage === "") {
+      filterMovies()
+    }
+
   }
 
   const filterMovies = () => {
@@ -49,6 +55,13 @@ export default function Home() {
     }
     //do the same thing for year
     // set the state
+    if (year.trim() !== "") {
+      filteredMovieList = filteredMovieList.filter((movie) => {
+        //check if the year (as an int) is the same as movie.year
+        return movie.year === parseInt(year)
+      })
+    }
+
     setMovieList(filteredMovieList)
   }
 
@@ -57,7 +70,12 @@ export default function Home() {
   }
   const validateSearchValues = () => {
     //if they're both empty, it's valid.
-    if (search.trim().length === 0 || year.trim().length === 0){
+    if (search.trim().length === 0 && year.trim().length === 0){
+      setErrorMessage("")
+      return
+    }
+
+    if (year.trim().length === 0) {
       setErrorMessage("")
       return
     }
@@ -66,6 +84,9 @@ export default function Home() {
       setErrorMessage(`${year} is not a valid year`)
       return
     }
+
+    setErrorMessage("")
+   
   }
 
   return (
@@ -97,7 +118,6 @@ export default function Home() {
                   variant="standard"
                   sx={{width: '100%'}}
                   onChange = {(event) => {
-                    event.defaultMuiPrevented = true;
                     setSearch(event.target.value)}}
                   value={search}
                 />
@@ -127,6 +147,11 @@ export default function Home() {
               </Grid>
             </Grid>
           </form>
+          {movieList.length === 0 ?
+          <SimpleListItem text={"no results found"} />
+          :
+          <SimpleListItem text={`Found ${movieList.length} result(s)`} />
+          }
           <List sx={{width: `100%`}}>
           { movieList.map((movieData, index)=> {
               return <ListItem key={index}>
@@ -139,6 +164,7 @@ export default function Home() {
             })
           }
           </List>
+          
         </Container>
       </main>
     </div>

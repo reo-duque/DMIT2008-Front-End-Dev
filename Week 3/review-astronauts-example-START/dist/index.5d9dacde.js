@@ -587,7 +587,7 @@ let astronautListElement = document.querySelector(".astronaut-list");
     });
 });
 
-},{"./api/astronaut":"j9BdQ","bootstrap/dist/css/bootstrap.min.css":"i5LP7","./dom/astronaut":"a988T"}],"j9BdQ":[function(require,module,exports) {
+},{"bootstrap/dist/css/bootstrap.min.css":"i5LP7","./api/astronaut":"j9BdQ","./dom/astronaut":"a988T"}],"i5LP7":[function() {},{}],"j9BdQ":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "getAstronautList", ()=>getAstronautList);
@@ -599,15 +599,10 @@ const BASE_URL = "https://lldev.thespacedevs.com/2.2.0";
  * getAstronautList().then((data)=> {
  *  //do something here.
  * })
- */ const getAstronautList = ()=>{
-    return fetch(`${BASE_URL}/astronaut/`) //promise
-    .then((response)=>{
-        return response.json() //a promise
-        ;
-    }).then((data)=>{
-        return data // this is what will be returned
-        ;
-    });
+ */ const getAstronautList = async ()=>{
+    const response = await fetch(BASE_URL + "/astronaut/");
+    const data = await response.json();
+    return data;
 };
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
@@ -640,7 +635,7 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"i5LP7":[function() {},{}],"a988T":[function(require,module,exports) {
+},{}],"a988T":[function(require,module,exports) {
 /*
 HTML of an astronaut list item.
 replace the instances that have "THIS FORMAT HERE" with the astronautData.
