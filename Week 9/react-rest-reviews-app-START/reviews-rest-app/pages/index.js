@@ -43,7 +43,7 @@ export default function Home() {
     event.preventDefault();
     //let's make the post request
     const response = await fetch('http://localhost:5000/reviews' , {
-      method: "POST", //tell the server what request we're making
+      method: 'POST', //tell the server what request we're making
       headers:  {//tell the server what type of data we're sending
         'Content-Type': 'application/json'
       },
@@ -81,7 +81,9 @@ export default function Home() {
       <Navbar title={"Adaptation Reviews App"}/>
       <main>
         <Container maxWidth="md">
-          <form>
+          <form
+          onSubmit={handleSubmit}
+          >
             <Grid container spacing={3}>
               <Grid item xs={12} sm={12}>
                 <TextField
@@ -138,7 +140,6 @@ export default function Home() {
                 <Button
                   variant="contained"
                   type="submit"
-                  onSubmit={handleSubmit}
                 >
                   Add New Review
                 </Button>
